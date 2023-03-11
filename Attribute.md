@@ -26,10 +26,10 @@
 .NET 类库中的大多数程序集都是自动引用的。如果未自动引用系统程序集，可通过以下方式之一添加引用：
 
 *   对于 .NET 和 .NET Core，添加对包含程序集的 NuGet 包的引用。在 Visual Studio 中使用 NuGet 包管理器，或将程序集的[<PackageReference>元素添加到](https://learn.microsoft.com/en-us/dotnet/core/tools/dependencies#the-packagereference-element)*.csproj*或*.vbproj*项目。
-*   对于 .NET Framework，使用Visual Studio 中的**“添加引用”对话框或**[C#](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-options/inputs#references)或[Visual Basic](https://learn.microsoft.com/en-us/dotnet/visual-basic/reference/command-line-compiler/reference)`-reference`编译器的命令行选项添加对程序集的引用。
+*   对于 .NET Framework，使用Visual Studio 中的** “添加引用”对话框或 ** [C#](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-options/inputs#references)或[Visual Basic](https://learn.microsoft.com/en-us/dotnet/visual-basic/reference/command-line-compiler/reference)`-reference`编译器的命令行选项添加对程序集的引用。
 
 # 4. 强命名程序集和签名工具
-**不要依赖强名称来确保安全。它们仅提供唯一身份**
+** 不要依赖强名称来确保安全。它们仅提供唯一身份 **
 有两种签名方式：
 1. 使用强名称，使用强名称对程序集进行签名会将公钥加密添加到包含程序集清单的文件中。强名称签名有助于验证名称的唯一性，防止名称欺骗，并在解析引用时为调用者提供一些身份
 2. 使用 Signool.exe(签名工具)。关联信任级别与强名称。
