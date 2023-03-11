@@ -12,7 +12,7 @@
 如果 Susan 对数据库进行更改，Harry 应该能够在他自己的数据库上执行她的转换。如果他有与她不同的测试数据，他可能会发现她没有发现的错误。Harry 不应该只是毁掉他的数据库然后重新开始。
 # 二、集成到项目 
 [官方参考文章](https://dbup.readthedocs.io/en/latest/usage/)
-##1. 引入DbUp相关包
+## 1. 引入DbUp相关包
 ```
 Install-Package dbup-core
 Install-Package dbup-mysql
