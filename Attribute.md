@@ -30,7 +30,7 @@
 *   对于 .NET Framework，使用Visual Studio 中的** “添加引用”对话框或 ** [C#](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-options/inputs#references)或[Visual Basic](https://learn.microsoft.com/en-us/dotnet/visual-basic/reference/command-line-compiler/reference)`-reference`编译器的命令行选项添加对程序集的引用。
 
 # 4. 强命名程序集和签名工具
-** 不要依赖强名称来确保安全。它们仅提供唯一身份 **
+**不要依赖强名称来确保安全。它们仅提供唯一身份**
 有两种签名方式：
 1. 使用强名称，使用强名称对程序集进行签名会将公钥加密添加到包含程序集清单的文件中。强名称签名有助于验证名称的唯一性，防止名称欺骗，并在解析引用时为调用者提供一些身份
 2. 使用 Signool.exe(签名工具)。关联信任级别与强名称。
