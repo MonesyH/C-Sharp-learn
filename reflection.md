@@ -55,4 +55,4 @@ object instance = Activator.CreateInstance(typeof(List<string>));
 genericMethod.Invoke(instance, new object[] { "example" });
 ```
 # 四、反射获取Atrribute
-参考文章：https://www.jianshu.com/p/0b076cf609b2中的四
+参考文章：https://www.jianshu.com/p/0b076cf609b2 中的四
