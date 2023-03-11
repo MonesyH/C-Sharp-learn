@@ -14,7 +14,8 @@
 
 # 2. 组装内容
 通常，静态程序集可以由四个元素组成:
-1. [assembly manifest](https://learn.microsoft.com/en-us/dotnet/standard/assembly/manifest),程序集清单，其中包含：
+
+1. [assembly manifest](https://learn.microsoft.com/en-us/dotnet/standard/assembly/manifest),程序集清单，其中包含：
 * 程序集的标识（它的名称和版本）。
 * 一个文件表，描述构成程序集的所有其他文件，例如您创建的.exe或.dll文件所依赖的其他程序集、位图文件或自述文件。
 * 程序集引用列表，它是所有外部依赖项的列表，例如.dll或其他文件。程序集引用包含对全局对象和私有对象的引用。全局对象可用于所有其他应用程序。
