@@ -57,7 +57,7 @@ public void Run()
 例子：
 ![注：Script0001_initial_tables.sql是创建数据库脚本](https://upload-images.jianshu.io/upload_images/20387877-d5a847a586d3bb73.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-##2 . 在项目文件中上面数据库脚本的位置
+## 2 . 在项目文件中上面数据库脚本的位置
 ```
     <ItemGroup>
         <EmbeddedResource Include="Dbup\Scripts_2023\Script0001_initial_tables.sql" />
