@@ -34,7 +34,8 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
 eyJ1bmlxdWVfbmFtZSI6ImFkbWluIiwiaWQiOiIxIiwicm9sZSI6ImFkbWluaXN0cmF0b3IiLCJuYmYiOjE2Nzg3NTg5MjUsImV4cCI6MTY3OTM2MzcyNSwiaWF0IjoxNjc4NzU4OTI1fQ
   ```
 * 签名（Signature）：主要用于防止token被篡改。当服务端获取到token时，会按照如下算法计算签名，若计算出的与token中的签名一致，才认为token没有被篡改。
-签名算法：
+
+  签名算法：
   1. 先将Header和Payload通过点（.）连接起来，即Base64Url编码的Header.Base64Url编码的Payload，记为 text
   2. 然后使用Header中指明的签名算法对text进行加密，得到一个二进制数组，记为 signBytes
   3. 最后对 signBytes 进行Base64Url编码，得到signature，即token的第三部分:
