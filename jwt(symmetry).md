@@ -223,3 +223,6 @@ private string GenerateJwtToken(List<Claim> claims)
 
 ## 2. 拿着token去访问需要权限的接口
 ![image.png](https://upload-images.jianshu.io/upload_images/20387877-3203bf33d291936b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+# 四、下一篇实现非对称
+https://github.com/MonesyH/C-learn/blob/main/jwt(asymmetric).md
