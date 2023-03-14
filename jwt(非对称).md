@@ -1,5 +1,5 @@
 # 一、前言
-上一篇实现了对称加密：https://www.jianshu.com/p/cd4ff4c61c6c
+上一篇实现了对称加密：[https://www.jianshu.com/p/cd4ff4c61c6c](https://github.com/MonesyH/C-learn/blob/main/jwt(%E5%AF%B9%E7%A7%B0).md)
 这一篇实现非对称加密
 
 # 二、生成公私钥
