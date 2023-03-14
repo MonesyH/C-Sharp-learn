@@ -1,5 +1,3 @@
-<center>👇</center>
-
 # 一、前置知识
 ## 1. jwt（json web token）
 生成的token示例：
