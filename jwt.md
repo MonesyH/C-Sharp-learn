@@ -45,6 +45,7 @@ eyJ1bmlxdWVfbmFtZSI6ImFkbWluIiwiaWQiOiIxIiwicm9sZSI6ImFkbWluaXN0cmF0b3IiLCJuYmYi
 
 ## 2. claim
 [官方文档](https://learn.microsoft.com/zh-CN/dotnet/api/system.security.claims.claim?view=netframework-4.8)
+
 声明(Claims)是身份验证和授权中的关键概念。它是一个关于身份的声明，例如用户的名称、电子邮件地址、角色或其他相关信息，这些信息被用于标识和验证用户。Claims是通过使用JSON Web Tokens (JWTs)等身份验证和授权协议来传输的。
 示例：
 1. 在控制器中检查用户是否有特定的Claim：
