@@ -130,7 +130,7 @@ SHA-256是一种加密哈希算法，用于将数据（比如文件或消息）�
 
 （2） 将解密后的数字m转换为明文
 
-# 二、集成到Asp.Net项目
+# 二、集成到Asp.Net项目（对称加密）
 ## 1. 导包
 ```
 Insatll-Package Microsoft.AspNetCore.Authentication.JwtBearer
