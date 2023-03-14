@@ -6,7 +6,7 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.
 eyJ1bmlxdWVfbmFtZSI6ImFkbWluIiwiaWQiOiIxIiwicm9sZSI6ImFkbWluaXN0cmF0b3IiLCJuYmYiOjE2Nzg3NTg5MjUsImV4cCI6MTY3OTM2MzcyNSwiaWF0IjoxNjc4NzU4OTI1fQ.
 GxxPDrg-WYMSVVEze2wm1r7hJ3iq06Qo5eQWyUZP25Y
 ```
-有上面能看到token通过 **.** 点 来分割不同的三个部分：
+从上面能看到token通过 **.** 点 来分割不同的三个部分：
 * 头部（Header）：主要用于说明token类型和签名算法。
 ```
 { 
