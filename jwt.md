@@ -162,7 +162,15 @@ Insatll-Package Microsoft.AspNetCore.Authentication.JwtBearer
 ```
 拓展：自定义的字段可以在[官方文档](https://learn.microsoft.com/en-us/dotnet/api/microsoft.identitymodel.tokens.tokenvalidationparameters?view=msal-web-dotnet-latest)查询
 
-## 4. 在登陆接口上生成token
+## 4. 在starrtup.cs的Configure方法中启用权限
+
+```
+app.UseAuthentication();
+```
+
+ps: 要在` app.UseRouting`和`app.UseEndpoints`的中间启用
+
+## 5. 在登陆接口上生成token
 (1) 先组装Claim
 ```
 private List<Claim> GenerateClaims(LoginDto dto)
@@ -177,6 +185,7 @@ private List<Claim> GenerateClaims(LoginDto dto)
     return claims;
 }
 ```
+
 (2) 再拿Claim去生成token
 ```
 private string GenerateJwtToken(List<Claim> claims)
@@ -195,7 +204,8 @@ private string GenerateJwtToken(List<Claim> claims)
 }
 ```
 
-## 5. 在需要添加权限认证的接口上添加`[Authorize]`属性
+## 6. 在需要添加权限认证的接口上添加`[Authorize]`属性
+
 ```
     [Authorize]
     [HttpGet]
