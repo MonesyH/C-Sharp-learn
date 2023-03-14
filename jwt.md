@@ -44,6 +44,56 @@ eyJ1bmlxdWVfbmFtZSI6ImFkbWluIiwiaWQiOiIxIiwicm9sZSI6ImFkbWluaXN0cmF0b3IiLCJuYmYi
   ```
 
 ## 2. claim
+[官方文档](https://learn.microsoft.com/zh-CN/dotnet/api/system.security.claims.claim?view=netframework-4.8)
+声明(Claims)是身份验证和授权中的关键概念。它是一个关于身份的声明，例如用户的名称、电子邮件地址、角色或其他相关信息，这些信息被用于标识和验证用户。Claims是通过使用JSON Web Tokens (JWTs)等身份验证和授权协议来传输的。
+示例：
+1. 在控制器中检查用户是否有特定的Claim：
+```
+[Authorize(Policy = "AdminOnly")]
+public IActionResult AdminAction()
+{
+    // 如果用户有 "admin" claim，就执行这个动作
+    return View();
+}
+```
+2. 在登录过程中将用户信息存储为Claim：
+```
+var claims = new List<Claim>
+{
+    new Claim(ClaimTypes.Name, user.Name),
+    new Claim(ClaimTypes.Email, user.Email),
+    new Claim(ClaimTypes.Role, user.Role)
+};
+
+var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+    new ClaimsPrincipal(claimsIdentity));
+```
+3. 在授权策略中定义要求用户必须具有的Claim：
+```
+services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminOnly", policy =>
+        policy.RequireClaim(ClaimTypes.Role, "Admin"));
+});
+```
+4. 从用户的Claims中获取信息：
+```
+public IActionResult Profile()
+{
+    var userName = User.FindFirstValue(ClaimTypes.Name);
+    var userEmail = User.FindFirstValue(ClaimTypes.Email);
+    var userRole = User.FindFirstValue(ClaimTypes.Role);
+    
+    return View(new UserProfileViewModel
+    {
+        UserName = userName,
+        Email = userEmail,
+        Role = userRole
+    });
+}
+```
 
 ## 3. 加密算法
 分为对称加密以及非对称加密
