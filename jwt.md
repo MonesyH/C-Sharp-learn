@@ -128,3 +128,86 @@ SHA-256是一种加密哈希算法，用于将数据（比如文件或消息）�
 
 （2） 将解密后的数字m转换为明文
 
+# 二、集成到Asp.Net项目
+## 1. 导包
+```
+Insatll-Package Microsoft.AspNetCore.Authentication.JwtBearer
+```
+ ## 2. 在appsettings.json中添加密钥
+```
+  "Authenticate": {
+    "Secret": "THIS IS USED TO SIGN AND VERIFY JWT TOKENS, REPLACE IT WITH YOUR OWN SECRET, IT CAN BE ANY STRING"
+  },
+```
+## 3. 在startup.cs的ConfigureServices中或者一个Extension来进行配置
+```
+ services.AddAuthentication(options =>
+        {
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        }).AddJwtBearer(options =>
+        {
+            options.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = false,
+                ValidateAudience = false,
+                ValidateLifetime = false,
+                ...... //你可以自定义
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("你的密钥"))
+            };
+        });
+```
+拓展：自定义的字段可以在[官方文档](https://learn.microsoft.com/en-us/dotnet/api/microsoft.identitymodel.tokens.tokenvalidationparameters?view=msal-web-dotnet-latest)查询
+
+## 4. 在登陆接口上生成token
+(1) 先组装Claim
+```
+private List<Claim> GenerateClaims(LoginDto dto)
+{
+    var claims = new List<Claim>
+    {
+        new(ClaimTypes.Name, dto.UserName),
+        new(ClaimTypes.NameIdentifier, dto.Id.ToString())
+    };
+    claims.AddRange(dto.Roles.Select(r => new Claim(ClaimTypes.Role, r)));
+    
+    return claims;
+}
+```
+(2) 再拿Claim去生成token
+```
+private string GenerateJwtToken(List<Claim> claims)
+{
+    var tokenHandler = new JwtSecurityTokenHandler();
+    var secret = Encoding.UTF8.GetBytes(_secret.Value);  //选择你的字符编码
+    var tokenDescriptor = new SecurityTokenDescriptor
+    {
+        Subject = new ClaimsIdentity(claims),
+        Expires = DateTime.UtcNow.AddDays(7),
+        SigningCredentials = new SigningCredentials(new SymmetricSecurityKey("你的密钥"), SecurityAlgorithms.HmacSha256Signature)
+    };
+    var token = tokenHandler.CreateToken(tokenDescriptor);
+    
+    return tokenHandler.WriteToken(token);
+}
+```
+
+## 5. 在需要添加权限认证的接口上添加`[Authorize]`属性
+```
+    [Authorize]
+    [HttpGet]
+    public IActionResult GetProductById(xxxx)
+    {
+        var response = xxxx;
+        .......   //逻辑
+        return Ok(response);
+    }
+```
+
+# 三、测试
+## 1. 发出login请求
+![login](https://upload-images.jianshu.io/upload_images/20387877-c00027db53d6436e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+## 2. 拿着token去访问需要权限的接口
+![image.png](https://upload-images.jianshu.io/upload_images/20387877-3203bf33d291936b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
