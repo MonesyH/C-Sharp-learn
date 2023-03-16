@@ -12,11 +12,6 @@
 
 1. 实现IModule和IHttpHandler的代码迁移到中间件上
 ```
-// ASP.NET 4 module
-
-using System;
-using System.Web;
-
 namespace MyApp.Modules
 {
     public class MyModule : IHttpModule
@@ -47,7 +42,7 @@ namespace MyApp.Modules
     }
 }
 ```
-[换成👇](#jump)
+[换成👇](#)
 ```
 namespace MyApp.Middleware
 {
@@ -92,7 +87,7 @@ namespace MyApp.Middleware
   </system.webServer>
 </configuration>
 ```
-换成👇
+[换成👇](#)
 ```
  app.UseMyMiddleware();
 ```
