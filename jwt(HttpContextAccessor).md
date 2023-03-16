@@ -39,7 +39,7 @@ public class HttpContextAccessor : IHttpContextAccessor
     }
 }
 ```
-这段代码用于在异步上下文中获取和设置当前的HTTP请求的上下文。具体来说，它使用了AsyncLocal<T>类，该类提供了一种线程本地存储（Thread Local Storage）的方法，它可以在异步调用栈中跟踪上下文信息，而不会受到线程切换的影响。
+这段代码用于在异步上下文中获取和设置当前的HTTP请求的上下文。具体来说，它使用了AsyncLocal<T>类（可以理解为java的ThreadLocal），该类提供了一种线程本地存储（Thread Local Storage）的方法，它可以在异步调用栈中跟踪上下文信息，而不会受到线程切换的影响。
 
 在类HttpContextAccessor中，HttpContext属性定义了一个可读可写的访问器。当读取该属性时，它返回HttpContextHolder中的Context属性。
 当设置该属性时，它首先从_httpContextCurrent.Value获取HttpContextHolder实例，然后将其Context属性设置为null。
