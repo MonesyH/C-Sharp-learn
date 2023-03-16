@@ -95,6 +95,9 @@ namespace MyApp.Middleware
 # 三、中间件管道
 ## 1. 中间件管道
 通过用委托的invoke实现图中递归链的效果
+
+响应的中间件顺序与请求的顺序相反，而模块的顺序对于请求和响应是相同的
+
 ![中间件管道](https://upload-images.jianshu.io/upload_images/20387877-caefd428766bda1a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 
