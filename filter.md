@@ -1,7 +1,6 @@
 # 一、和Middleware关系
 ## 1. 联系
 实际上asp.net提供的filter底层都是使用中间件来实现的
-
 例如AuthenticationFilter权限过滤器：
 ```
 namespace Microsoft.AspNetCore.Authentication;
@@ -105,3 +104,114 @@ public class AuthenticationMiddleware
     *   对于必须围绕视图或格式化程序的执行的逻辑，会很有用。
 
 ![filter管道顺序](https://upload-images.jianshu.io/upload_images/20387877-42f9e3917d3f81a0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+# 三、注册方式
+## 1.  Action 注册方式
+Action 注册方式是局部注册方式，针对控制器中的某个方法上标注特性的方式进行注册，代码如下：
+```
+ [AuthonizationFilter()]
+ public IActionResult Index()
+ {
+     return View();
+ }
+```
+## 2. Controller 注册方式
+对整个Controller都进行注册，代码如下：
+```
+ [AuthonizationFilter()]
+ public class FirstController : Controller
+  {
+        private ILogger<FirstController> _logger;
+
+        public FirstController(ILogger<FirstController> logger)
+        {
+            _logger = logger;
+        }
+ }
+```
+## 3. 全局注册方式
+比如要全局处理系统中的异常，或者收集操作日志等，需要全局注册一个ExceptionFilter 来实现，就不需要每一个Controller 中进行代码注册，方便快捷。代码如下：
+```
+ public void ConfigureServices(IServiceCollection services)
+  {
+            //全局注册异常过滤器
+            services.AddControllersWithViews(option=> {
+                option.Filters.Add<ExecptionFilter>();
+            });
+
+            services.AddSingleton<ISingletonService, SingletonService>();
+}
+```
+
+## 4. TypeFilter 和 ServiceFilter 注册方式
+上面的五大过滤器中事例代码中其中有一个过滤器的代码比较特，再来回顾ExceptionFilter过滤器的实现代码：
+```
+    public class ExecptionFilter : Attribute, IExceptionFilter
+    {
+        private ILogger<ExecptionFilter> _logger;
+        //构造注入日志组件
+        public ExecptionFilter(ILogger<ExecptionFilter> logger)
+        {
+            _logger = logger;
+        }
+
+        public void OnException(ExceptionContext context)
+        {
+            //日志收集
+            _logger.LogError(context.Exception, context?.Exception?.Message??"异常");
+        }
+    }
+```
+从上面的代码中可以发现 ExceptionFilter 过滤器实现中存在日志服务的构造函数的注入，也就是说该过滤器依赖于其他的日志服务，但是日志服务都是通过DI 注入进来的；再来回顾下上面Action 注册方式或者Controller 注册方式 也即Attribute 特性标注注册方式，本身基础的特性是不支持构造函数的，是在运行时注册进来的，那要解决这种本身需要对服务依赖的过滤器需要使用 TypeFilter 或者ServiceFilter 方式进行过滤器的标注注册。
+
+### TypeFilter 和ServiceFilter 的区别
+
+1. ServiceFilter和TypeFilter都实现了IFilterFactory
+
+2. ServiceFilter需要对自定义的Filter进行注册，TypeFilter不需要
+
+3. ServiceFilter的Filter生命周期源自于您如何注册，而TypeFilter每次都会创建一个新的实例
+
+TypeFilter 使用方式
+
+代码如下：
+```
+[TypeFilter(typeof(ExecptionFilter))]
+public IActionFilter Index2()
+{
+      return View();
+}
+```
+通过上面的代码可以发现AuthonizationFilter 是默认的构造器，但是如果过滤器中构造函数中存在参数，需要注入服务，比如上面的ExceptionFilter 代码，就不能使用这种方式进行注册，需要使用服务特性的方式，我们可以选择使用 代码如下：
+```
+[TypeFilter(typeof(ExecptionFilter))]
+public IActionFilter Index2()
+{
+     return View();
+}
+```
+ServiceFilter 使用方式
+
+控制器中的代码如下：
+```
+[ServiceFilter(typeof(ExecptionFilter))]
+public IActionFilter Index2()
+{
+    return View();
+}
+```
+注册服务的代码如下：
+```
+public void ConfigureServices(IServiceCollection services)
+{
+       Console.WriteLine("ConfigureServices");
+       services.AddControllersWithViews();
+
+       //services.AddControllersWithViews(option=> {
+       //    option.Filters.Add<ExecptionFilter>();
+       //});
+        
+        //注册过滤器服务，使用ServiceFilter 方式必须要注册 否则会报没有注册该服务的相关异常
+        services.AddSingleton<ExecptionFilter>();
+}
+```
