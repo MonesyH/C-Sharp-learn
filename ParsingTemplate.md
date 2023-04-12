@@ -3,7 +3,8 @@
 * 举例：
   传参：
   
-  （1）***字符串Template***：``` "This is a template to test #{Data.many_credit_card_info:1.type} #{Data.many_credit_card_info:1.card_number}" ```
+  （1）***字符串Template***：
+  ``` "This is a template to test #{Data.many_credit_card_info:1.type} #{Data.many_credit_card_info:1.card_number}" ```
  
   
   （2） ***json***:
