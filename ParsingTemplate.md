@@ -1,11 +1,11 @@
 # 一、 问题描述
 * 问题： 在字符串中提取需要赋值的占位符子字符串，并通过和JObject字段对比进行赋值，最后把赋值占位符后的字符串覆盖原来的字符串
 * 举例：
-
   传参：
-  （1）***字符串Template***：``` "This is a template to test #{Data.many_credit_card_info:1.type} #{Data.many_credit_card_info:1.card_number}" ```
   
+  （1）***字符串Template***：``` "This is a template to test #{Data.many_credit_card_info:1.type} #{Data.many_credit_card_info:1.card_number}" ```
  
+  
   （2） ***json***:
   ```
   {
