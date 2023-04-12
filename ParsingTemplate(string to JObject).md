@@ -149,7 +149,7 @@ foreach (var variable in variables)
 {
     SanitizedProperty prev = null;
 
-    var parsedVariable = new ParsedVariable(variable);
+    var parsedVariable = new ParsedVariable(variable); // 剔除掉#{}，只要字符
 
     for (var i = 0; i < parsedVariable.SubProperties.Count; i++)
     {
@@ -157,7 +157,7 @@ foreach (var variable in variables)
         
         var matched = prev == null
             ? jObject.SelectToken($"$.{subProperty.FieldName}")
-            : prev.Data?.SelectToken($"$.{subProperty.FieldName}");
+            : prev.Data?.SelectToken($"$.{subProperty.FieldName}"); // 字段匹配
 
         if (subProperty is NormalProperty)
         {
@@ -166,7 +166,7 @@ foreach (var variable in variables)
                 subProperty.Data = matched;
             }
         }
-        else if (subProperty is IndexedProperty typedProperty)
+        else if (subProperty is IndexedProperty typedProperty) //下标属性的处理
         {
             if (matched != null)
             {
@@ -177,10 +177,10 @@ foreach (var variable in variables)
 
         if (i == parsedVariable.SubProperties.Count - 1 && subProperty.Data != null)
         {
-            template = template.Replace(variable, (string)subProperty.Data);
+            template = template.Replace(variable, (string)subProperty.Data); //剔除已匹配的字段
         }
 
-        prev = subProperty;
+        prev = subProperty; //覆盖字符串，进入下一次匹配
     }
 }
 ```
