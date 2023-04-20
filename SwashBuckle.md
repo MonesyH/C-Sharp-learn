@@ -1,6 +1,16 @@
 # 一、背景
 我需要用到[JsonProperty]来对某些字段指定别名（为了对接外部接口）进行序列化，到了swagger ui上之后，发现用到[JsonProperty]的字段都无法正常传递值，怀疑是请求时字段名不匹配导致接收不到。把原来的驼峰式命名换成[JsonProperty]定义的别名后，就能正常传参。
 
+示例： 
+
+用到[JsonProperty]的子类：
+
+![用到[JsonProperty]的子类](https://upload-images.jianshu.io/upload_images/20387877-252a723b4a403662.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+swagger ui上显示的是实际上原字段的驼峰命名，而在实际传参的时候用的是上面[JsonProperty]的别名
+
+![之前](https://upload-images.jianshu.io/upload_images/20387877-5fb7ccb1096f2620.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 ## 解决方案
 ### 1. 用[JsonPropertyName]来进行序列化（弃用）
 
@@ -245,15 +255,5 @@ c.OperationFilter<SwaggerCustomSchemeOperationFilter>(
 ```
 
 ##  效果：
-
-需要修改的子类：
-
-![需要修改的子类](https://upload-images.jianshu.io/upload_images/20387877-252a723b4a403662.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-
-之前：
-
-![之前](https://upload-images.jianshu.io/upload_images/20387877-5fb7ccb1096f2620.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-
-之后:
 
 ![之后](https://upload-images.jianshu.io/upload_images/20387877-c2072ac6e211db25.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
