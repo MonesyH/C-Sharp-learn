@@ -23,8 +23,9 @@ swagger ui上显示的是实际上原字段的驼峰命名，而在实际传参�
 ### 3. 从Swagger动手，写一个自定义的规则修改Swagger UI上传参的显示。（采用）
 
 需要考虑的点： 
- * 这样改会不会动到全局的配置
-* 应该只需要修改有[JsonProperty]的字段显示，而实际上只有command中的子类（因为只有子类可能会用到[JsonProperty]）需要修改
+* 这样改会不会动到全局的配置
+* 应该只需要修改有[JsonProperty]的字段显示
+* 根据传参类型找到所有成员（遍历树）
 * 够不够generic
 
 # 二、在SwashBuckle源码里面找找灵感
@@ -196,47 +197,51 @@ private string DefaultSchemaIdSelector(Type modelType)
 ```
 public class SwaggerCustomSchemeOperationFilter : IOperationFilter
 {
-    private readonly Type _mainParameter;
-    private readonly List<Type> _subParameters;
+    private readonly Type _propertyType;
 
-    public SwaggerCustomSchemeOperationFilter(Type mainParameter, List<Type> subParameters)
+    public SwaggerCustomSchemeOperationFilter(Type propertyType)
     {
-        _mainParameter = mainParameter;
-        _subParameters = subParameters;
+        _propertyType = propertyType;
     }
-    
+
     public void Apply(OpenApiOperation operation, OperationFilterContext context)
     {
-        if (!_mainParameter.Name.Equals(operation.RequestBody?.Content?.FirstOrDefault().Value.Schema.Reference?.Id)) return;
+        if (!_propertyType.Name.Equals(operation.RequestBody?.Content?.FirstOrDefault().Value.Schema.Reference?.Id)) return;
 
-        var references = context.SchemaRepository.Schemas
-            .FirstOrDefault(x => x.Key == _mainParameter.Name).Value.Properties
-            .Where(x => x.Value.Reference != null).ToList();
-
-        if (references.IsNullOrEmpty()) return;
+        var stack = new Stack<Type>();
         
-        foreach (var subParameter in _subParameters)
-        {
-            if (!references.Select(x => x.Value.Reference.Id).Contains(subParameter.Name)) continue;
-            
-            var schemaProperties = context.SchemaRepository.Schemas
-                .Where(x => x.Key.Equals(subParameter.Name))
-                .Select(x => x.Value.Properties).SingleOrDefault();
-            
-            if(schemaProperties == null) return;
-            
-            foreach (var property in subParameter.GetProperties())
-            {
-                var jsonPropertyAttribute = property.GetCustomAttribute<JsonPropertyAttribute>();
-                                
-                if (jsonPropertyAttribute?.PropertyName == null) continue;
+        stack.Push(_propertyType);
 
-                var needChangeProperty = schemaProperties.FirstOrDefault(x => string.Equals(x.Key, property.Name, comparisonType: StringComparison.OrdinalIgnoreCase));
+        while (stack.Count > 0)
+        {
+            var subType = stack.Pop();
+            
+            var subPropertiesSchema = context.SchemaRepository.Schemas
+                .Where(x => subType.Name.Equals(x.Key))
+                .Select(x => x.Value.Properties).SingleOrDefault();
+
+            if (subPropertiesSchema == null) continue;
+
+            foreach (var subProperty in subType.GetProperties())
+            {
+                var needChangeProperty = subPropertiesSchema.SingleOrDefault(x => 
+                    string.Equals(subProperty.Name, x.Key, StringComparison.OrdinalIgnoreCase));
 
                 if (needChangeProperty.Key.IsNullOrEmpty()) continue;
                 
-                schemaProperties.Remove(needChangeProperty.Key);
-                schemaProperties.Add(jsonPropertyAttribute.PropertyName, needChangeProperty.Value);
+                var jsonPropertyAttribute = subProperty.GetCustomAttribute<JsonPropertyAttribute>();
+
+                if (jsonPropertyAttribute?.PropertyName != null)
+                {
+                    subPropertiesSchema.Remove(needChangeProperty.Key);
+                    subPropertiesSchema.Add(jsonPropertyAttribute.PropertyName, needChangeProperty.Value);
+                }
+
+                if (subPropertiesSchema.Any(x => x.Value.Reference?.Id == subProperty.PropertyType.Name)
+                    && subProperty.PropertyType.GetProperties().Length > 0)
+                {
+                    stack.Push(subProperty.PropertyType);
+                }
             }
         }
     }
@@ -246,12 +251,7 @@ public class SwaggerCustomSchemeOperationFilter : IOperationFilter
 然后在AddSwaggerGen中进行配置：
 
 ```
-c.OperationFilter<SwaggerCustomSchemeOperationFilter>(
-    typeof(xxxCommand), 
-    new List<Type>
-    {
-        typeof(command中的子类), typeof(command中的子类)
-    });
+c.OperationFilter<SwaggerCustomSchemeOperationFilter>(typeof(接口传参，例如xxxCommand));
 ```
 
 ##  效果：
