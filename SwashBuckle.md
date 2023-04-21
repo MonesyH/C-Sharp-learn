@@ -83,7 +83,7 @@ public async Task<OpenApiDocument> GetSwaggerAsync(string documentName, string h
 PS：这个filter其实是实现IOperationFilter的filter差不多，都是需要实现接口的Apply方法。
 ![IOperationFilter](https://upload-images.jianshu.io/upload_images/20387877-3243e7332d13f51e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-## 3. 那我重点要看的是 `ISchemaGenerator`里面GenerateSchema方法的源码
+## 3. 再看看 `ISchemaGenerator`里面GenerateSchema的方法实现
 ```
 public OpenApiSchema GenerateSchema(
     Type modelType,
@@ -112,8 +112,8 @@ private DataContract GetDataContractFor(Type modelType)
 }
 ```
 ![GetDataContractForType](https://upload-images.jianshu.io/upload_images/20387877-e1ea7b0195067d6e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 这里就能看到他是怎么处理JsonProperty这个Attribute了
-我就直接先跳到具体处理JsonProperty逻辑的源码里面了，想要详细看的话可以自己去看看过程。
 
 ```
 public static class JsonPropertyExtensions
@@ -142,10 +142,10 @@ public static class JsonPropertyExtensions
 }
 ```
 
-这里也属于灵感来源吧，让我想通过反射[JsonProperty]这个Attribute来获取需要修改的字段。
+发现Swashbuckle的Jsonproperty的处理只是看他有没有Required标明必须传参的字段，并没有更换字段名的显示。
 
 ### （2）以及`GenerateSchemaForMember`中的`GenerateConcreteSchema`
-因为源码太长了我就大概说一下主要作用，有兴趣可以去看看：
+因为源码太长了我就大概说一下主要作用：
 主要是根据类型的不同分别调用 CreatePrimitiveSchema、CreateArraySchema、CreateDictionarySchema 或 CreateObjectSchema 函数来创建相应的 Schema。
 而他比较有趣的一行是最后一行：
 ```
@@ -173,7 +173,7 @@ private OpenApiSchema GenerateReferencedSchema(
     return schemaRepository.AddDefinition(schemaId, schema);
 }
 ```
-而这个SchemaIdSelector就是看传参的时候会不会出现参数的类型是一个类，即有子类
+而这个SchemaIdSelector就是通过递归获取所有的SchemaId
 ```
 private string DefaultSchemaIdSelector(Type modelType)
 {
@@ -189,13 +189,16 @@ private string DefaultSchemaIdSelector(Type modelType)
 这里就能说明他的scheme是包含了所有的传参字段以及传参类型
 
 # 三、实现
-按照上面的灵感，整理一下思路：
-* 选择任意一个filter（这里我先采用IOperationFilter，因为当时还不知道有IRequestBodyFilter）
-* 根据对应的command（一个command对应一个请求），制定修改逻辑
-* 修改逻辑：只command中的子类中有[JsonProperty]的字段
-* 实现用command和子类构造自定义filter
 
-自定义filter实现：
+按照上面的灵感，整理一下思路：
+
+* 选择任意一个filter（这里我先采用IOperationFilter，因为当时还不知道有IRequestBodyFilter）
+* 用请求传参类型构造自定义filter
+* 递归修改请求传参类型的所有成员
+* 只修改成员中有[JsonProperty]的字段
+
+自定义filter具体实现：
+
 ```
 public class SwaggerCustomSchemeOperationFilter : IOperationFilter
 {
