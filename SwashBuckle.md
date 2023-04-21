@@ -16,7 +16,7 @@ swagger ui上显示的是实际上原字段的驼峰命名，而在实际传参�
 
 结果：按照Swagger UI显示的示例传参能正常传递参数值，但是在进行序列化对接外部接口的时候，并不能按照[JsonPropertyName]里的参数来序列化。
 
-### 2. 把所有参数都放在command里面，所有都不用[JsonProperty]或[JsonPropertyName]，接收到前端传参后再组装成一个有[JsonProperty]的DTO。（暂定）
+### 2. 把所有参数都放在command里面，所有都不用[JsonProperty]或[JsonPropertyName]，接收到前端传参后再组装成一个有[JsonProperty]的DTO。（弃用）
 
 后续： 需要组装的字段太多了，一个一个组装太冗长，暂时不这么去做。也有想过用Automapper映射过去，但实际上还是需要指定字段一个一个映射，同样冗长。
 
@@ -27,6 +27,8 @@ swagger ui上显示的是实际上原字段的驼峰命名，而在实际传参�
 * 应该只需要修改有[JsonProperty]的字段显示
 * 根据传参类型找到所有成员（遍历树）
 * 够不够generic
+
+### 4. 自定义一个只对字段序列化的Attribute（暂定）
 
 # 二、在SwashBuckle源码里面找找灵感
 [GitHub源码地址](https://github.com/domaindrivendev/Swashbuckle.AspNetCore)
