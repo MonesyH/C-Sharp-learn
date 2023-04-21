@@ -247,6 +247,19 @@ public class SwaggerCustomSchemeOperationFilter : IOperationFilter
     }
 }
 ```
+上面代码的大概逻辑：
+
+* 先判断传参是否在operation里面（之所以不在context里面的SchemaRepository里面找，是因为SwashBuckle在循坏所有请求的Apply时，会在SchemaRepository叠加不同请求的Schema，所以如果通过context做比较就会导致别的接口请求也会跑到这个自定义的Apply当中）
+
+* 这里用遍历树的其中一种方式：用栈实现递归（Apply是由SwashBuckle控制的，所以不好调用Apply），逻辑大概是：
+
+    用父节点在context中找到其Schemas，
+    
+    然后遍历父节点的所有子成员，
+    
+    根据每个子成员是否有JsonProperty的Attribute来进行修改，
+    
+    最后判断每个子成员底下是否还有子成员，有就压栈。
 
 然后在AddSwaggerGen中进行配置：
 
