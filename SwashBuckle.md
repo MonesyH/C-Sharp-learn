@@ -28,7 +28,7 @@ swagger ui上显示的是实际上原字段的驼峰命名，而在实际传参�
 * 根据传参类型找到所有成员（遍历树）
 * 够不够generic
 
-### 4. 自定义一个只对字段序列化的Attribute（暂定）
+### 4. 自定义一个只对字段序列化的Attribute（暂定，应该是一个更优的方案）
 
 # 二、在SwashBuckle源码里面找找灵感
 [GitHub源码地址](https://github.com/domaindrivendev/Swashbuckle.AspNetCore)
