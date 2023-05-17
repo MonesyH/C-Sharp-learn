@@ -62,7 +62,7 @@ public object Perform(PerformContext context)
     }
 }
 ```
-* 在Core版本中的`InvokeMethod`会通过反射根据Job是否要异步执行来用不同的方式来执行任务
+* 在Core版本中的`InvokeMethod`会通过反射根据Job是否要异步执行来用不同的方式来执行任务（hangfire还有一个.net framework的版本，framework的版本就不会给你判断用不用异步）
 
 ```
 private object InvokeMethod(PerformContext context, object instance, object[] arguments)
