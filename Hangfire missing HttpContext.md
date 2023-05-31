@@ -11,7 +11,7 @@
 
 https://docs.hangfire.io/en/latest/background-methods/using-ioc-containers.html
 
-![官方文档](https://upload-images.jianshu.io/upload_images/20387877-0e7c8fcde7881c02.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![官方文档](https://upload-images.jianshu.io/upload_images/20387877-37fa11d237ac8118.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/124)
 
 # 二、解决思路
 ## 实际需要解决的问题：在保存执行Job操作的用户时，无法获取到当前用户。
