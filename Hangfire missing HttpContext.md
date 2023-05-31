@@ -27,6 +27,8 @@ https://docs.hangfire.io/en/latest/background-methods/using-ioc-containers.html
 
 ## 1. 用DbUp往数据库中插入一条写死的内部用户数据
 
+具体代码这里不展示，会涉及到代码逻辑，不过这个可以看看https://github.com/MonesyH/C-Sharp-learn/blob/main/DbUp%20Code-based%20Script.md
+
 ## 2. 定义一个切换器
 
 ```
