@@ -33,3 +33,5 @@ class Z : Y
 * 派生类通过可以自定义类而可能获得的潜在好处。
 
 * 派生类可能采用使它们无法再正常工作或按预期工作的方式来修改类的可能性。
+
+back to [SourceEnum](https://github.com/MonesyH/C-Sharp-learn/blob/main/About%20SourceEnum.md)
