@@ -97,3 +97,4 @@ public class StringWrapper
 StringWrapper wrapper = new StringWrapper("test");
 string number = wrapper;
 ```
+back to [SourceEnum](https://github.com/MonesyH/C-Sharp-learn/blob/main/About%20SourceEnum.md)
