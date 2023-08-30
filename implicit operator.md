@@ -30,8 +30,8 @@ public class IntegerWrapper
 }
 
 // 使用方法：
-IntegerWrapper wrapper = new IntegerWrapper(10);
-int number = IntegerWrapper.ToInt(wrapper);
+var wrapper = new IntegerWrapper(10);
+var number = IntegerWrapper.ToInt(wrapper);
 ```
 
 * `implicit operator`:
@@ -47,8 +47,8 @@ public class StringWrapper
 }
 
 // 使用方法：
-StringWrapper wrapper = new StringWrapper("test");
-string number = wrapper;
+var wrapper = new StringWrapper("test");
+var number = wrapper;
 ```
 
 C# 提供的语法糖写法：
@@ -77,8 +77,8 @@ public class IntegerWrapper
 }
 
 // 使用方法：
-IntegerWrapper wrapper = new IntegerWrapper(10);
-int number = (int)wrapper;
+var wrapper = new IntegerWrapper(10);
+var number = (int)wrapper;
 ```
 
 * `implicit operator`:
@@ -94,7 +94,7 @@ public class StringWrapper
 }
 
 // 使用方法：
-StringWrapper wrapper = new StringWrapper("test");
-string number = wrapper;
+var wrapper = new StringWrapper("test");
+var number = wrapper;
 ```
 back to [SourceEnum](https://github.com/MonesyH/C-Sharp-learn/blob/main/About%20SourceEnum.md)
