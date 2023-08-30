@@ -46,3 +46,4 @@ var serialized = EnumToString(color);
 // Deserialize: String -> Enum
 var deserialized = StringToEnum<Colors>(serialized);
 ```
+back to [SourceEnum](https://github.com/MonesyH/C-Sharp-learn/blob/main/About%20SourceEnum.md)
