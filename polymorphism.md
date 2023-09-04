@@ -18,7 +18,7 @@
 
 直接上设计图：
 
-![具体设计图](https://upload-images.jianshu.io/upload_images/20387877-7e50e5b115ac03f5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![具体设计图](https://upload-images.jianshu.io/upload_images/20387877-6574e1e3dd23c271.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 稍微解释一下：
 
