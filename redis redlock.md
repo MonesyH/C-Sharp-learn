@@ -30,7 +30,7 @@ redis中有个`SETNX`的命令，表示SET if Not eXists，即如果 key 不存�
 (integer) 1
 ```
 
-![大概过程](https://upload-images.jianshu.io/upload_images/20387877-93f02323e2506413.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![大概过程](https://upload-images.jianshu.io/upload_images/20387877-d1da4821026477dd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 
 # 三、如何避免死锁
