@@ -197,7 +197,7 @@ Redlock 的方案基于 2 个前提：
 
 # 八、在.net 中使用RedLock
 
-[![image.png](https://upload-images.jianshu.io/upload_images/20387877-203778e4a84165be.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)](https://i.postimg.cc/YS0GWn7R/Wechat-IMG52.png)
+![image.png](https://i.postimg.cc/YS0GWn7R/Wechat-IMG52.png)
 
 我使用的是：https://github.com/samcook/RedLock.net
 
