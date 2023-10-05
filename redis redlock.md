@@ -187,4 +187,5 @@ Redlock 的方案基于 2 个前提：
 ![image.png](https://upload-images.jianshu.io/upload_images/20387877-c876311f9872a1ab.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 我使用的是：https://github.com/samcook/RedLock.net
+
 具体用法可以直接看GitHub上描述文件README.md.
