@@ -1,3 +1,5 @@
+redis官网：https://redis.io/docs/manual/patterns/distributed-locks/
+
 # 一、为什么需要分布式锁
 多个进程如果需要修改 MySQL 中的同一行记录时，为了避免操作乱序导致数据错误，此时，我们就需要引入「分布式锁」来解决这个问题了。
 
@@ -179,3 +181,10 @@ Redlock 的方案基于 2 个前提：
 例如，客户端在一个 Redis 实例上加锁成功，但在读取响应结果时，网络问题导致读取失败，那这把锁其实已经在 Redis 上加锁成功了。
 
 所以，释放锁时，不管之前有没有加锁成功，需要释放「所有节点」的锁，以保证清理节点上「残留」的锁。
+
+# 八、在.net 中使用RedLock
+
+![.net可用](https://upload-images.jianshu.io/upload_images/20387877-07ab49517833c65d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+我使用的是：https://github.com/samcook/RedLock.net
+具体用法可以直接看GitHub上描述文件README.md.
